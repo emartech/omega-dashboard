@@ -1,0 +1,22 @@
+include _ringchart
+
+mixin box-mixin(clan, today)
+  .m-box
+    h2 #{clan.name}
+    h3
+      e-icon(icon='check' color='white' size='small')
+      span(class='status-' + calculateColor(today, (clan.epics.done / clan.epics.all) * 100, ['bad', 'ok', 'good']) + '-progress') #{clan.epics.done}
+      | /#{clan.epics.all} epics
+
+    .m-ringchart
+      +ringchart(clan.epics.done / clan.epics.all, today / 100)
+
+      .m-legend
+        each project in clan.projects
+          - current = Math.floor((project.epics.done / project.epics.all) * 100)
+          .m-progress(class='m-progress-' + calculateColor(today, current, ['bad', 'ok', 'good']))
+            .m-progress__title #{project.name}
+            .m-progress__background
+              .m-progress__today(style=`left: ${today}%`)
+              .m-progress__current(style=`width: ${current}%`)
+              //- .m-progress__progress(style=`width: ${current * 1.1}%`)

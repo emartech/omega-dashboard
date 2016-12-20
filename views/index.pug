@@ -1,0 +1,132 @@
+include _box-mixin
+
+- today = Math.floor(cycle.time.elapsed_days / cycle.time.total_days * 100)
+- clanProgresses = [0, 3, 4, 5, 2, 1].map(i => clan_statuses[i]).map(clan => Math.floor(clan.epics.done / clan.epics.all * 100))
+
+doctype html
+html(lang="en")
+  head
+    title Omega
+    link(rel='stylesheet' href='https://redirector-staging.eservice.emarsys.com/ui/latest/css/app.css')
+    link(rel='stylesheet' href='style.css')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(http-equiv="refresh" content="3600")
+  body
+    script(src='https://redirector-staging.eservice.emarsys.com/ui/latest/js/app.js')
+
+  .m-wrapper
+    .m-header
+      - percentage = cycle.epics.done / cycle.epics.all * 100
+      .m-header__content
+        .m-header__title
+          svg.e-icon
+            use(xlink:href="#e-logo")
+          div Cycle Overview
+        .m-menu
+          .m-menu__item
+            .m-menu__title #{cycle.time.total_days - cycle.time.elapsed_days} days
+            .m-menu__subtitle Left from this cycle
+          .m-menu__item
+            .m-menu__title #{Math.floor(percentage)}%
+            .m-menu__subtitle Overall progress
+          .m-menu__item
+            .m-menu__title #{cycle.epics.done}<span>/#{cycle.epics.all}</span>
+            .m-menu__subtitle Epics
+        .m-header__progress
+          .m-progress.m-progress-big(class='m-progress-' + calculateColor(today, percentage, ['bad', 'ok', 'good']))
+            .m-progress__background
+              .m-progress__today(style=`left: ${today}%`)
+              .m-progress__current(style=`width: ${percentage}%`)
+            .m-progress__steps
+              .m-progress__step #{new Date(cycle.start).toLocaleDateString('en-US', { month: 'long', day: '2-digit' })}
+              .m-progress__step #{new Date(cycle.end).toLocaleDateString('en-US', { month: 'long', day: '2-digit' })}
+    .m-content
+      .m-content__inner
+        .m-grid
+          h2.m-grid__launch Launch: #{new Date(cycle.launch).toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' })}
+
+          +box-mixin(clan_statuses[0], today)
+          +box-mixin(clan_statuses[1], today)
+          +box-mixin(clan_statuses[2], today)
+        .m-grid.m-grid-hexagon
+          .m-hexagon
+            .m-hexagon__header.m-hexagon__header--message Launch: #{new Date(cycle.launch).toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' })}
+            .m-hexagon__header Task for every clan: <strong>Spread out the hexa!</strong>
+
+            .m-hexagon__percents
+              .m-hexagon__percentwrapper
+                - for (var i = 10; i > 0; --i) {
+                  div= (i * 10) + '%'
+                - }
+            svg(data-progress=`[${clanProgresses.join(', ')}]` data-overall-progress=`${calculateColor(today, percentage, ['bad', 'ok', 'good'])}` width="656px" height="656px" viewBox="-30 -21 656 656" class="m-hexagon__progress" style="z-index: 3")
+            svg(width="656px" height="656px" class="m-hexagon__steps")
+              path(d="m311.44753,98.25551c8.7,-5.4 25,-5.4 34.6,0l179.7,104c5.7,3.2 10.3,11.3 10.3,18l0,215.4c0,6.7 -4.6,14.7 -10.3,18l-186.6,107.9c-5.8,3.3 -15,3.3 -20.8,0l-186.7,-107.8c-5.7,-3.5 -10.5,-11.5 -10.5,-18l0,-215.7c0,-6.7 4.8,-14.8 10.5,-18l179.8,-103.8z" stroke="#444F56" stroke-width="3" vector-effect="non-scaling-stroke" fill="#fff")
+              - for (var i = 0; i < 10; ++i) {
+                path(d="m311.44753,98.25551c8.7,-5.4 25,-5.4 34.6,0l179.7,104c5.7,3.2 10.3,11.3 10.3,18l0,215.4c0,6.7 -4.6,14.7 -10.3,18l-186.6,107.9c-5.8,3.3 -15,3.3 -20.8,0l-186.7,-107.8c-5.7,-3.5 -10.5,-11.5 -10.5,-18l0,-215.7c0,-6.7 4.8,-14.8 10.5,-18l179.8,-103.8z" stroke="#444F56" stroke-width="3" vector-effect="non-scaling-stroke" fill="none")
+              - }
+              path.m-hexagon__today(d="m311.44753,98.25551c8.7,-5.4 25,-5.4 34.6,0l179.7,104c5.7,3.2 10.3,11.3 10.3,18l0,215.4c0,6.7 -4.6,14.7 -10.3,18l-186.6,107.9c-5.8,3.3 -15,3.3 -20.8,0l-186.7,-107.8c-5.7,-3.5 -10.5,-11.5 -10.5,-18l0,-215.7c0,-6.7 4.8,-14.8 10.5,-18l179.8,-103.8z" stroke="rgba(255, 255, 255, .6)" stroke-width="2" vector-effect="non-scaling-stroke" fill="none" stroke-dasharray="2, 4")
+
+            svg(width="656px" height="656px" class="m-hexagon__arrows" style="z-index: 3")
+              path(d="m311.44753,98.25551c8.7,-5.4 25,-5.4 34.6,0l179.7,104c5.7,3.2 10.3,11.3 10.3,18l0,215.4c0,6.7 -4.6,14.7 -10.3,18l-186.6,107.9c-5.8,3.3 -15,3.3 -20.8,0l-186.7,-107.8c-5.7,-3.5 -10.5,-11.5 -10.5,-18l0,-215.7c0,-6.7 4.8,-14.8 10.5,-18l179.8,-103.8z" stroke="#444F56" stroke-width="3" vector-effect="non-scaling-stroke" fill="#fff")
+              path(d="M183.8 214v4h-10.5l3 4.6-3 2-5.3-8.7 5.3-9 3 1.5-3 5.4h10.5zm10-13.6l-3.5 2-5.3-9-2.4 5-3.3-1.8 4.8-9 10.5.2.2 3.5h-6.2l5.3 9zm16.6 1.8l-3.5-2 5-9-5.4.3v-3.7l10-.3 5 9-2.8 2-3-5.4-5.4 9.2zm6.8 15.4v-4h10.5l-3-4.7 3-2 5.3 8.6-5.3 9-3-1.6 3-5.4h-10.5zm-10 13.5l3.5-2 5.3 9.2 2.4-5 3.3 1.7-4.8 8.8h-10.5l-.2-3.6h6.2l-5.3-9zm-16.6-1.7l3.5 2-5 9 5.4-.3v3.7l-10 .3-5-9 2.8-2 3 5.4 5.4-9z" stroke="none" fill="#AFAFAF" fill-rule="evenodd")
+
+            svg(width="755px" height="615px" viewBox="-1 63 755 615" class="m-hexagon__lines")
+              path(d="M246.5 591.5l-44 76.3c-2.8 4.8-9.5 8.7-15 8.7H1M506 592l44 76.3c2.8 4.8 9.5 8.7 15 8.7h186.6M246.6 149l-44-76.3c-2.7-4.8-9.4-8.7-15-8.7H1M125.3 371H124L1 370M752.3 371H751l-123-1M506 149l44-76.3c2.8-4.8 9.5-8.7 15-8.7h186.6" stroke="#DDDDDD" stroke-width="2" stroke-linecap="square" fill="none" opacity="0.3")
+
+            .m-hexagon__footer
+              .m-hexagon__footer__item.m-hexagon__footer__item-current(class="status-" + calculateColor(today, percentage, ['bad', 'ok', 'good']) + "-progress")
+                span Current status
+              .m-hexagon__footer__item.m-hexagon__footer__item-optimal
+                span Optimal progress
+
+        .m-grid
+          +box-mixin(clan_statuses[3], today)
+          +box-mixin(clan_statuses[4], today)
+          +box-mixin(clan_statuses[5], today)
+
+script.
+  if (window.outerWidth < 1920 && window.outerWidth > 768) {
+    document.documentElement.setAttribute('style', 'transform: scale(' + (window.outerWidth / 1920) + ')')
+  }
+
+  var todayElement = document.querySelector('.m-hexagon__today');
+  var progress = document.querySelector('.m-hexagon__progress');
+  var pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+
+  todayElement.setAttribute('style', 'transform: rotate(330deg) scale(' + (0.18 + (#{today} / 10) * 0.082) + ')');
+
+  function getPointOnLine(percent) {
+    return 198 * (percent / 100) + 41;
+  }
+
+  function getPointForClan(clan, percent) {
+    var oX = getPointOnLine(percent);
+
+    var x = oX * Math.cos(((clan - 2) * 60) * Math.PI / 180);
+    var y = oX * Math.sin(((clan - 2) * 60) * Math.PI / 180);
+
+    return [x + 298, y + 304];
+  }
+
+  var arr = JSON.parse(progress.getAttribute('data-progress'));
+  var arrStr = [];
+
+  arr.forEach(function(clan, i) {
+    var point = getPointForClan(i, clan);
+    arrStr.push(point[0] + ',' + point[1]);
+  });
+
+  var overall = progress.getAttribute('data-overall-progress');
+  var color = '191,62,62';
+
+  switch (overall) {
+    case 'bad': color = '191,62,62'; break;
+    case 'ok': color = '101,151,207'; break;
+    case 'good': color = '2,153,88'; break;
+  }
+
+  pathElement.setAttribute('points', arrStr.join(' '));
+  pathElement.style.fill = 'rgba(' + color + ',.25)';
+  pathElement.style.stroke = 'rgb(' + color + ')';
+  pathElement.style.strokeWidth = '2px';
+  progress.appendChild(pathElement);

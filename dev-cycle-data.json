@@ -1,0 +1,92 @@
+{
+  "cycle": {
+    "name": "2017 Spring Launch Cycle",
+    "start": "2016-10-10",
+    "end": "2017-01-31",
+    "launch": "2017-02-07"
+  },
+  "clan_statuses": [
+    {
+      "name": "APPLE Clan",
+      "projects": [
+        {
+          "name": "Breeze Global",
+          "epics": [
+            { "name": "project1", "status": "done"},
+            { "name": "project2", "status": "done"},
+            { "name": "project3", "status": "inprogress"},
+            { "name": "project4", "status": "notstarted"},
+            { "name": "project5", "status": "notstarted"}
+          ]
+        },
+        {
+          "name": "Project2",
+          "epics": {
+            "done": 0,
+            "all": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "BANANA Clan",
+      "projects": [
+        {
+          "name": "Project",
+          "epics": [
+             { "name": "Epic", "status": "done"}
+          ]    
+        }
+      ]
+    },
+    {
+      "name": "CACTUS Clan",
+      "projects": [
+        {
+          "name": "Project",
+          "epics": [
+             { "name": "Epic", "status": "done"}
+          ]    
+        }
+      ]
+    },
+    {
+      "name": "DURIAN Clan",
+      "projects": [
+        {
+          "name": "Project",
+          "epics": [
+             { "name": "Epic", "status": "done"},
+             { "name": "Epic", "status": "notstarted"},
+             { "name": "Epic", "status": "notstarted"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "EGGPLANT Clan",
+      "projects": [
+        {
+          "name": "Project",
+          "epics": [
+             { "name": "Epic", "status": "done"}
+          ]   
+        }
+      ]
+    },
+    {
+      "name": "FIG Clan",
+      "projects": [
+        {
+          "name": "Project",
+          "epics": [
+             { "name": "Epic", "status": "done"},
+             { "name": "Epic", "status": "notstarted"},
+             { "name": "Epic", "status": "notstarted"},
+             { "name": "Epic", "status": "notstarted"}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "omega",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "cd dist && git init && git checkout -b gh-pages && git add -A . && git commit -m \"$(cd .. && git log -1 --pretty=oneline) --skip-ci\" && git push -f git@github.com:emartech/omega.git gh-pages",
+    "build": "gulp clean && gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emartech/omega.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/emartech/omega/issues"
+  },
+  "homepage": "https://github.com/emartech/omega#readme",
+  "devDependencies": {
+    "clone-deep": "0.2.4",
+    "gulp": "3.9.1",
+    "lodash": "4.17.2",
+    "node-sass": "3.13.0",
+    "pug": "2.0.0-beta6",
+    "rimraf": "2.5.4"
+  },
+  "engines": {
+    "node": "7.1.0"
+  }
+}

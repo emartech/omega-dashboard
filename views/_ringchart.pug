@@ -1,0 +1,10 @@
+mixin ringchart(actualProgress, expectedProgress)
+  - const percentage = Math.round(actualProgress * 100)
+  - const todayDegree = Math.floor(360 * expectedProgress)
+  .m-ringchart__chart
+    e-ring(type='indicator', radius='55', width="12")
+      e-circle(percent=(percentage), color=calculateColor(expectedProgress, actualProgress, ['#BF3E3E', '#6597CF', '#029958']), stroke="#022131")
+      e-circle(percent=(100 - percentage), color=calculateColor(expectedProgress, actualProgress, ['#733C3E', '#3D596E', '#1C4C41']), stroke="#022131")
+      .m-today(style=`transform: rotate(${todayDegree}deg)`)
+    .m-ringchart__inner
+      .m-ringchart__header(style='color: ' + calculateColor(expectedProgress, actualProgress, ['#BF3E3E', '#6597cf', '#029958'])) #{percentage}%
